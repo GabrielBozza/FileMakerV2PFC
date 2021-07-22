@@ -10,7 +10,6 @@ import java.util.Date;
 
 import br.eb.ime.model.Log;
 import br.eb.ime.model.LogEntry;
-import br.eb.ime.model.*;
 
 public  class FileLoader {
 

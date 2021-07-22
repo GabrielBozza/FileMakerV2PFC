@@ -2,17 +2,6 @@ package br.eb.ime.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.List;
-
-
-import br.eb.ime.model.Log;
-import br.eb.ime.model.LogEntry;
-
 
 public class Manager {
 
