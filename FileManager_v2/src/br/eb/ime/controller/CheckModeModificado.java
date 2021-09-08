@@ -13,7 +13,7 @@ import br.eb.ime.model.LogEntry;
 public final class CheckModeModificado {
 	
 	public static String check(Log log, int windowSize) {
-		String CurrentMode="SILENT MODE",NewMode="",className="" ;
+		String CurrentMode="MAINTAIN_CURRENT_MODE",NewMode="",className="" ;
 		int priority = 1000;
 		
 		//usando métodos para checar ASC e DESC
@@ -39,14 +39,9 @@ public final class CheckModeModificado {
 				Method methodGetPriority;
 				try {
 					  methodGetPriority = cls.getMethod("getRulePriority");
-					  //methodCheckMode = cls.getMethod("checkMode", java.lang.String.class,boolean.class, boolean.class, double.class, double.class, java.lang.String.class);
 					  try {
-						//NewMode = methodCheckMode.invoke(cls,CurrentMode,asc,desc,entryTest.getSecurityLevel(),entryTest.getFrequency(),entryTest.getRole().strip()).toString();
-						//System.out.println("Resultado da aplicação da regra = " + NewMode);
-						
 						priority = Integer.parseInt(methodGetPriority.invoke(cls).toString());
 						map.put(priority, className);
-						//System.out.println("Prioridade da regra = " + priority);
 						} catch (IllegalArgumentException e) { e.printStackTrace(); }
 						  catch (IllegalAccessException e) { e.printStackTrace(); }
 						  catch (InvocationTargetException e) { e.printStackTrace(); }
@@ -62,8 +57,7 @@ public final class CheckModeModificado {
 		}
 		
 		//TreeMap organiza o map em ordem decrescente de prioridade (1>2>3>....>1000>...)
-		
-		//Checa as regras de acordo com a ordem de prioridade --> a primeira que modificar o modo do rádio dá um brak no loop
+		//Checa as regras de acordo com a ordem de prioridade --> a primeira que modificar o modo do rádio dá um break no loop
 		for (Map.Entry<Integer, String> e : map.entrySet()) {
             //System.out.println(e.getKey() + " " + e.getValue());
 			try {
@@ -73,9 +67,9 @@ public final class CheckModeModificado {
 					  methodCheckMode = cls.getMethod("checkMode", java.lang.String.class,boolean.class, boolean.class, double.class, double.class, java.lang.String.class);
 					  try {
 						NewMode = methodCheckMode.invoke(cls,CurrentMode,asc,desc,entryTest.getSecurityLevel(),entryTest.getFrequency(),entryTest.getRole().strip()).toString();
-						System.out.println("Resultado da aplicação da regra = " + NewMode);
-						
-						if(!(NewMode.equalsIgnoreCase("MAINTAIN_CURRENT_MODE"))) break;
+						System.out.println("Resultado da aplicação da regra " + e.getValue().subSequence(16, e.getValue().length()) +" (Prioridade-->"+e.getKey()+ ") = " + NewMode);
+						//CurrentMode = NewMode;
+						if(!(NewMode.equalsIgnoreCase("MAINTAIN_CURRENT_MODE"))) return NewMode;
 
 						} catch (IllegalArgumentException ex) { ex.printStackTrace(); }
 						  catch (IllegalAccessException ex) { ex.printStackTrace(); }
@@ -86,7 +80,9 @@ public final class CheckModeModificado {
 			} catch (ClassNotFoundException ex) {
 				ex.printStackTrace();
 			}
-            }
+        }
+		
+		CurrentMode = NewMode;
 		
 	return CurrentMode;
 }
