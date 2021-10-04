@@ -8,7 +8,7 @@ package br.eb.ime.rules;
 
 public class Rule_ST1 {
 
-	static Integer RulePriority = 10;
+	static Integer RulePriority = 1;
 
 	public static String checkMode(String CurrentMode, boolean SNRValues_ASC, boolean SNRValues_DESC, double SecLevel, double CarrierFreq, String OpRole){
 

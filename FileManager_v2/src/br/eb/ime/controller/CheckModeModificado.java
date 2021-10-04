@@ -67,7 +67,8 @@ public final class CheckModeModificado {
 					  methodCheckMode = cls.getMethod("checkMode", java.lang.String.class,boolean.class, boolean.class, double.class, double.class, java.lang.String.class);
 					  try {
 						NewMode = methodCheckMode.invoke(cls,CurrentMode,asc,desc,entryTest.getSecurityLevel(),entryTest.getFrequency(),entryTest.getRole().strip()).toString();
-						System.out.println("Resultado da aplicação da regra " + e.getValue().subSequence(16, e.getValue().length()) +" (Prioridade-->"+e.getKey()+ ") = " + NewMode);
+						CurrentMode = NewMode;
+						//System.out.println("Resultado da aplicação da regra " + e.getValue().subSequence(16, e.getValue().length()) +" (Prioridade-->"+e.getKey()+ ") = " + NewMode);
 						//CurrentMode = NewMode;
 						if(!(NewMode.equalsIgnoreCase("MAINTAIN_CURRENT_MODE"))) return NewMode;
 
@@ -82,7 +83,7 @@ public final class CheckModeModificado {
 			}
         }
 		
-		CurrentMode = NewMode;
+		//CurrentMode = NewMode;
 		
 	return CurrentMode;
 }

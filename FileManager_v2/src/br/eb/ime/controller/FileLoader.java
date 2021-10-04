@@ -12,9 +12,11 @@ import br.eb.ime.model.Log;
 import br.eb.ime.model.LogEntry;
 
 public  class FileLoader {
+	public int line=0;
 
 	public  void loadLog(String nomeArquivo) throws IOException, ParseException, InterruptedException {
-	   
+		
+		
 	   ArrayList<LogEntry> entries = new ArrayList<LogEntry>();
 	   Log log =  new Log();
 	   	   
@@ -35,20 +37,23 @@ public  class FileLoader {
 		
 		while (linha!=null) { 
 			   
-		         entries.add(fromLineToLogEntry(linha));// adiciona cada linha no ArrayList<LogEntry> 
-		    	 LogEntry entry = new LogEntry(fromLineToLogEntry(linha));
-		    	
-			    
-		    	 if (count<windowSize) {
-		    		entry.showLogEntry();//mostra a linha lida
-			    	System.out.println(initialMode);
-			    	count++;
-			    }else {
-			    	log.setEntries(entries);//janela completa inserida no Objeto Log, que será checado
-			    	entry.showLogEntry();//mostra a linha lida
-			    	System.out.println(CheckModeModificado.check(log,windowSize));//momento onde as regras são aplicadas na classe Final CheckMode
-			    	entries.remove(0); // elimina a primeira linha a cada leitura de uma nova linha(tornando a janela deslizante) 
-			    }
+				 if(validateLogEntry(linha)) {
+			         entries.add(fromLineToLogEntry(linha));// adiciona cada linha no ArrayList<LogEntry> 
+			    	 LogEntry entry = new LogEntry(fromLineToLogEntry(linha));
+			    	
+			    	 if (count<windowSize) {
+			    		entry.showLogEntry();//mostra a linha lida
+				    	System.out.println(initialMode);
+				    	count++;
+				    }else {
+				    	log.setEntries(entries);//janela completa inserida no Objeto Log, que será checado
+				    	//System.out.print(line+"-->");
+				    	entry.showLogEntry();//mostra a linha lida
+				    	System.out.println(CheckModeModificado.check(log,windowSize));//momento onde as regras são aplicadas na classe Final CheckMode
+				    	//line++;
+				    	entries.remove(0); // elimina a primeira linha a cada leitura de uma nova linha(tornando a janela deslizante) 
+				    }
+		    	 }
 		    	
 		    	 Thread.sleep(20); // Simula o intervalo de leitura do ambiente (aguarda 20 milisegundos)
 		    	linha = lerArq.readLine(); // lê cada uma das próximas linhas até a última linha
@@ -76,6 +81,23 @@ public  class FileLoader {
 	    
 	  return logEntry;
     }
+	
+	public Boolean validateLogEntry(String linha) {
+		
+		String campos[] = linha.split(" ");//coleta dos dados de cada linha
+		try{
+			float sampleValue = Float.parseFloat(campos[0]);
+	        int frequency = Integer.parseInt(campos[1]);
+	        double securityLevel =  (double)Float.parseFloat(campos[2]);
+	        String role = campos[3];
+	        if(!(role.equalsIgnoreCase("CMT") || role.equalsIgnoreCase("SOLDIER"))) return false;
+	        return true;
+		} catch (Exception e) {
+			//e.printStackTrace();
+		}
+        
+		return false;
+	}
 	
 
 	public FileLoader() {

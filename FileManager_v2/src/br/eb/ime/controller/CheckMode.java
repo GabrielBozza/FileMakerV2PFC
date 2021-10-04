@@ -19,13 +19,13 @@ public final class CheckMode {
 		//A aplicação de todas as regras definidas na tabela de regras e definição do modo de operação
 		
 		if  ((asc) && (entryTest.getSecurityLevel()>=0.5)&&(entryTest.getFrequency()==50)&&(entryTest.getRole().strip().equals("cmt"))){
-			mode = " SILENT Mode ";
+			mode = "SILENT_MODE";
 						
 		} else {if ((asc)&&(entryTest.getSecurityLevel()<0.5)&&(entryTest.getFrequency()==100)&&(entryTest.getRole().strip().equals("cmt"))){
-						mode=" IBAND FD Mode ";
+						mode="FULLDUPLEX_MODE";
 						
 					} else {if (asc) {
-								mode =" ALERT_Mode ";
+								mode ="ALERT_MODE";
 								
 					          }	
 					   }
@@ -34,16 +34,16 @@ public final class CheckMode {
 	  
     	 
     	 if ((desc)&&(entryTest.getSecurityLevel()>=0.5)&&(entryTest.getFrequency()==50)&&(entryTest.getRole().strip().equals("soldier"))){
-						mode = " NORMAL Mode ";
+						mode = "NORMAL_MODE";
 						
 						
 					  } else {
 						     if ((desc)&&(entryTest.getSecurityLevel()<0.5)&&(entryTest.getFrequency()==100)&&(entryTest.getRole().strip().equals("soldier"))){
-					    	     mode = " NORMAL Mode ";
+					    	     mode = "NORMAL_MODE";
 								 
 								
 					          }else {if(desc) {
-										mode = " ALERT_Mode ";
+										mode = "ALERT_MODE";
 											
 					                  }
 					           }
@@ -51,7 +51,7 @@ public final class CheckMode {
      
      
      if((!asc) && (!desc)) { Date fim = new Date();
-            	    mode = " MANTEM_Mode ";
+            	    mode = "MAINTAIN_CURRENT_MODE";
      }
       
 	return mode;
